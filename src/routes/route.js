@@ -5,17 +5,19 @@ const bookController = require('../controllers/bookController')
 const {authentication,authorization} = require('../middleware/authentication')
 
 
-/******************[User APIs]**********************************************/
+//----------------[Create User]
 router.post('/register', userController.createUser)
+//----------------[Login User]
 router.post('/login', userController.loginUser)
-
-/********************[Book APIs]********************************************/
+//----------------[Create Books]
 router.post('/books',authentication,authorization,bookController.createBook)
-
+//----------------[Get Books]
 router.get('/books',authentication,bookController.getBook)
+//----------------[Get Books by Id]
 router.get('/books/:bookId',authentication,bookController.getBookById)
-
+//----------------[Update Books]
 router.put('/books/:bookId',authentication,authorization,bookController.updateBook)
+//-----------------[Delete Book]
 router.delete('/books/:bookId',authentication,authorization,bookController.deleteBook)
 
 module.exports=router

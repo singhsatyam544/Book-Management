@@ -1,3 +1,5 @@
+//=================[Imports]==============
+
 const userModel = require('../models/userModel')
 const validator = require('../validator/validator')
 const jwt = require('jsonwebtoken')
@@ -8,6 +10,8 @@ const createUser = async function (req, res) {
     try {
 
         const data = req.body
+        console.log(typeof data.name)
+        let address = req.body.address
         if (Object.keys(data).length === 0) return res.status(400).send({ status: false, message: "Please Provide data to create a new user." })
 
         if (!validator.isValidBody(data)) return res.status(400).send({ status: false, message: 'Please Enter The User Details' })
@@ -46,6 +50,11 @@ const createUser = async function (req, res) {
 
         if (!(data.password.trim().length >= 8) || !(data.password.trim().length <= 15)) {
         return res.status(400).send({ status: false, message: "Password should have length in range 8 to 15" })
+        }
+        if(address){
+            if(!validator.isValidString(address.street)) return res.status(400).send({status:false,message:"Please enter the street name"})
+            if(!validator.isValidString(address.city)) return res.status(400).send({status:false,message:"Please enter the city name"})
+            if(!validator.isValidString(address.pincode)) return res.status(400).send({status:false,message:"Please enter the pincode"})
         }
 
         const newUser = await userModel.create(data);
@@ -97,7 +106,6 @@ const loginUser = async function(req,res){
         
     }
 }
-
 
 module.exports.createUser = createUser
 module.exports.loginUser = loginUser
