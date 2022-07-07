@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+require('mongoose-moment')(mongoose);
 
 
 const bookSchema = new mongoose.Schema({
@@ -25,10 +26,6 @@ const bookSchema = new mongoose.Schema({
         required: 'ISBN is Required',
         unique: true,
         trim:true
-    },
-    bookImage:{
-        type:String,
-        required:true
     },
     category: {
         type: String,
