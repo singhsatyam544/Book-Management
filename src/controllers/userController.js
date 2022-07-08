@@ -52,10 +52,13 @@ const createUser = async function (req, res) {
         return res.status(400).send({ status: false, message: "Password should have length in range 8 to 15" })
         }
         if(address){
-            if(!validator.isValidString(address.street)) return res.status(400).send({status:false,message:"Please enter the street name"})
-            if(!validator.isValidString(address.city)) return res.status(400).send({status:false,message:"Please enter the city name"})
-            if(!validator.isValidString(address.pincode)) return res.status(400).send({status:false,message:"Please enter the pincode"})
+            if(!validator.isValidString(address.street) || !validator.isValid(address.street)) return res.status(400).send({status:false,message:"Please enter the street name"})
+            if(!validator.isValidString(address.city)|| !validator.isValid(address.city)) return res.status(400).send({status:false,message:"Please enter the city name"})
+            if(!validator.isValidString(address.pincode) || !validator.isValid(address.pincode)) return res.status(400).send({status:false,message:"Please enter the pincode"})
+            
+            
         }
+        if(!address) return res.status(400).send({status:false, message:"PLease enter the address."})
 
         const newUser = await userModel.create(data);
 
